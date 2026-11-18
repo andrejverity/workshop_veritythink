@@ -47,7 +47,7 @@ h2{font-size:1.5rem;margin-bottom:6px}
 table{width:100%;border-collapse:collapse;font-size:.92rem}
 td,th{padding:9px 6px;border-bottom:1px solid var(--line);text-align:left}
 th{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray)}
-td.r,th.r{text-align:right}
+td.r,th.r{text-align:right;white-space:nowrap}
 .src{border-top:1px solid var(--line);padding:14px 0}
 .src:first-of-type{border-top:0}
 .tag{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gray);margin-right:8px}
@@ -89,7 +89,7 @@ footer a{color:#fff;border-bottom:1px solid var(--red)}
       <div class="map"><svg viewBox="0 0 400 300" aria-label="Stylised fictional map"><path d="M40 210 C70 120 150 60 230 80 C310 95 360 150 340 220 C320 270 220 280 140 262 C80 250 30 250 40 210Z" fill="#dfe3ea" stroke="#c4c9d4"/><g id="rings"></g><circle id="epi" cx="215" cy="150" r="6" fill="#d73a42"/><text x="228" y="146" font-size="11" fill="#17181e" font-family="sans-serif">Epicentre (invented)</text></svg><span class="maplab sans">Not a real place</span></div></div>
   </div>
   <div class="panel"><h2>Funding picture</h2><p class="note sans">Mock layout of a funding tracker block. Real funding data has caveats (reported vs. pledged vs. paid, late reporting, double counting) that a real version must state beside every figure.</p>
-    <div class="sans"><div style="display:flex;justify-content:space-between"><span><b id="fund"></b> reported (fictional)</span><span id="req"></span></div><div class="bar"><i id="fbar"></i></div><small id="fpct" style="color:var(--gray)"></small></div>
+    <div class="sans"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:2px 16px"><span><b id="fund"></b> reported (fictional)</span><span id="req"></span></div><div class="bar"><i id="fbar"></i></div><small id="fpct" style="color:var(--gray)"></small></div>
     <div class="diff sans" style="margin-top:14px"><b>Scope (invented):</b> event-specific flash appeal only. Counts commitments and contributions; pledges shown apart. <b>Broader context:</b> the invented 2026 Calvaria response plan is a separate line and is not added to the figure above. <span id="scopeNote"></span></div>
 <table class="sans" style="margin-top:12px"><thead><tr><th>Donor (invented)</th><th>Type</th><th class="r">Amount</th></tr></thead><tbody id="donors"></tbody></table>
   </div>
@@ -117,7 +117,7 @@ function fill(sel,items){sel.innerHTML=items.map((x,i)=>`<option value="${i}">${
 function render(){const e=E[+$("em").value],i=+$("ed").value,d=e.eds[i],p=e.eds[i-1];
 $("stats").innerHTML=`<div class="stat"><small>Alert level (invented)</small><b><span class="pill ${e.alert}">${e.alert}</span></b></div><div class="stat"><small>Event</small><b>${e.mag}</b></div><div class="stat"><small>People affected</small><b>${d.aff}</b></div><div class="stat"><small>Confirmed deaths</small><b>${d.dead}</b></div>`;
 $("summary").textContent=d.summary;
-$("diffbox").innerHTML=p?`<b>Since the previous edition (${p.t}):</b> funding reported moved from US$ ${p.fund} M to US$ ${d.fund} M; ${d.src.length-p.src.length>=0?d.src.length-p.src.length:0} new source item(s).`:`<b>First edition.</b> Later editions will show what changed.`;
+$("diffbox").innerHTML=p?`<b>Since the previous edition (${p.t}):</b> funding reported moved from US$ ${p.fund} M to US$ ${d.fund} M; source items listed: ${d.src.length} (was ${p.src.length}).`:`<b>First edition.</b> Later editions will show what changed.`;
 $("rings").innerHTML=[1,.66,.33].map(k=>`<circle cx="215" cy="150" r="${d.rad*k}" fill="rgba(215,58,66,${.12/k/2})" stroke="#d73a42" stroke-opacity=".4"/>`).join("");
 $("fund").textContent="US$ "+d.fund+" M";$("req").textContent="of US$ "+e.req+" M requested (fictional)";
 const pc=Math.round(d.fund/e.req*100);$("fbar").style.width=pc+"%";$("fpct").textContent=pc+"% of the invented requirement";
