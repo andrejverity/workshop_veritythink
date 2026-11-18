@@ -119,8 +119,8 @@ $("stats").innerHTML=`<div class="stat"><small>Alert level (invented)</small><b>
 $("summary").textContent=d.summary;
 $("diffbox").innerHTML=p?`<b>Since the previous edition (${p.t}):</b> funding reported moved from US$ ${p.fund} M to US$ ${d.fund} M; source items listed: ${d.src.length} (was ${p.src.length}).`:`<b>First edition.</b> Later editions will show what changed.`;
 $("rings").innerHTML=[1,.66,.33].map(k=>`<circle cx="215" cy="150" r="${d.rad*k}" fill="rgba(215,58,66,${.12/k/2})" stroke="#d73a42" stroke-opacity=".4"/>`).join("");
-$("fund").textContent="US$ "+d.fund+" M";$("req").textContent="of US$ "+e.req+" M requested (fictional)";
-const pc=Math.round(d.fund/e.req*100);$("fbar").style.width=pc+"%";$("fpct").textContent=pc+"% of the invented requirement";
+$("fund").textContent=d.donors.length?"US$ "+d.fund+" M":"No record yet";$("req").textContent="of US$ "+e.req+" M requested (fictional)";
+const pc=Math.round(d.fund/e.req*100);$("fbar").style.width=pc+"%";$("fpct").textContent=d.donors.length?pc+"% of the invented requirement":"Coverage unknown (no matching record), not 0%";
 $("scopeNote").textContent=d.donors.length?"Status mix: "+Math.round(d.fund*.7)+" M committed, "+(d.fund-Math.round(d.fund*.7))+" M pledged (invented split).":"No matching funding record found yet. That is not the same as zero funding: records can lag or be filed under another plan or year.";
 $("donors").innerHTML=d.donors.length?d.donors.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td class="r">US$ ${x[2]} M</td></tr>`).join(""):`<tr><td colspan="3">No funding reported yet in this edition.</td></tr>`;
 const cats=["All",...new Set(d.src.map(s=>s[0]))];if(!cats.includes(cat))cat="All";
