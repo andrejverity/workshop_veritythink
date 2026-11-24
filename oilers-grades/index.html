@@ -103,13 +103,13 @@ const ta=teamAvg(i);return `<div class="card"><div class="row"><label>Game <sele
 <div class="note">Original story: <a href="${g.url}" target="_blank" rel="noopener">Cult of Hockey player grades, Edmonton Journal</a> (may require a Journal login).</div></div>`}
 function howView(){return `<div class="card"><h2>How it works: from article to analysis</h2>
 <ol class="steps">
-<li><b>The narrative source.</b>After each Oilers game, the Cult of Hockey blog on the Edmonton Journal site publishes a story that gives every player a grade out of 10, with a short written verdict on his game. The grades are the publication's, not this project's.</li>
-<li><b>Names and grades, lifted out.</b>The agent reads each story and lifts out the player names and their grades, along with the game's details: date, opponent, score, and whether it ended in regulation, overtime or a shootout.</li>
-<li><b>A structured spreadsheet.</b>Each game becomes one column in a private spreadsheet, one row per player, with team context (home or away, division, conference) stored alongside. That turns the narratives into one clean table of numbers, where gaps (N/A, Incomplete) stay visible as gaps.</li>
-<li><b>Analysis.</b>This page reads that table and computes what the narratives cannot show on their own: season averages, rolling form, home/away and opponent splits, hot and cold streaks, head-to-head comparisons, and a game explorer that links back to each original story.</li>
+<li><b>The narrative source.</b>After each Oilers game, the Cult of Hockey blog on the Edmonton Journal site publishes a story grading the players out of 10, with a short written verdict on each performance. Not every entry is a number: some come back as N/A or Incomplete. The grades are the publication's, not this project's.</li>
+<li><b>Names and grades, lifted out.</b>The agent reads each story and lifts out the player names and their grades, matching names carefully so the same player's grades always land together across stories. The game context (date, opponent, score and how the game ended) comes from the NHL's official schedule and results, not from the stories.</li>
+<li><b>A structured spreadsheet.</b>Everything lands in a private spreadsheet: one row per player, one column per game, with the schedule details kept on a separate tab. That turns the narratives into one clean table of numbers, where gaps (N/A, Incomplete) stay visible as gaps.</li>
+<li><b>Analysis.</b>This page computes what the narratives cannot show on their own: season averages, rolling form, home/away and opponent splits, hot and cold streaks, head-to-head comparisons, and a game explorer that links back to each original story. It runs on a snapshot of the spreadsheet data embedded in the page itself; it is not connected to the live sheet.</li>
 </ol></div>
 <div class="card"><h2>Where it stands</h2>
-<p>The backfill is done: all ${N} games from the season opener on September 29 through November 22 are collected and included in the tabs above.</p>
+<p>The backfill is done: all ${N} completed games through November 22 are collected and included in the tabs above.</p>
 <p>Ongoing collection is paused. New grades would normally be collected after each game, but nothing new is being collected while we wait for Postmedia's reply to our permission request. The demo stays as it is until we hear back.</p></div>`}
 function render(){document.getElementById('main').innerHTML={form:formView,cmp:cmpView,splits:splitView,hot:hotView,games:gameView,how:howView}[cur]()}
 nav();render();
