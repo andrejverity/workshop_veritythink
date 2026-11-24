@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<title>Scholarship Hunter | The Workshop</title>
+<meta name="description" content="A spreadsheet-run scholarship and grant search: one row per applicant, a wide scan of universities, countries and funders, and every source logged so the coverage can be audited.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17181e;--red:#d73a42;--paper:#fff;--mist:#f7f8fb;--line:#e6e7eb;--gray:#747577}
+*{box-sizing:border-box;margin:0}
+body{background:var(--mist);color:var(--ink);font-family:'PT Serif',Georgia,serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--red);text-decoration:none;transition:color .2s}a:hover{color:var(--ink)}
+header{background:var(--ink);color:#fff;padding:22px 6vw 44px;position:relative;overflow:hidden}
+header::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 80% 30%,#000,transparent 70%);mask-image:radial-gradient(circle at 80% 30%,#000,transparent 70%)}
+nav{position:relative;display:flex;justify-content:space-between;align-items:center;font-size:.9rem;letter-spacing:.04em}
+nav a{color:#fff}nav a:hover{color:var(--red)}.brand{font-weight:700;font-size:1.45rem;line-height:1.7;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif}.brand span{color:var(--red)}@media(max-width:800px){.brand{font-size:1.35rem}}
+.hd{position:relative;margin:34px auto 0;max-width:860px}
+.eyebrow{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:700}
+h1{font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:1.05;letter-spacing:-.02em;margin:10px 0 12px}
+h1 em{color:var(--red)}
+.lede{color:#d1d1d2;max-width:660px;font-size:1.1rem}
+main{max-width:860px;margin:auto;padding:44px 6vw 70px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:34px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.stat b{display:block;font-size:1.5rem;line-height:1.2}
+.stat small{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);font-weight:700}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:28px;margin-bottom:22px}
+h2{font-size:1.45rem;margin-bottom:10px;letter-spacing:-.01em}
+.note{color:var(--gray);font-size:.9rem;margin-bottom:14px}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{position:relative;padding:0 0 18px 58px;counter-increment:s}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:2px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-weight:700;color:var(--red);font-size:1.3rem}
+.steps b{display:block;font-size:1.08rem}
+.rules{list-style:none;padding:0}
+.rules li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid var(--line)}
+.rules li:last-child{border-bottom:0}
+.rules li::before{content:"\00D7";position:absolute;left:4px;color:var(--red);font-weight:700}
+.rules li.yes::before{content:"\2713"}
+footer{background:var(--ink);color:#d1d1d2;padding:34px 6vw;font-size:.88rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{color:#fff;border-bottom:1px solid var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <nav class="sans"><a class="brand" href="https://veritythink.com/">verity<span>&bull;</span>think</a><a href="../">&larr; The Workshop</a></nav>
+  <div class="hd">
+    <p class="eyebrow sans">Project 10 &middot; Run on request</p>
+    <h1>Scholarship <em>Hunter.</em></h1>
+    <p class="lede">Funding for study, found from a profile in a spreadsheet. The search runs wide, from the university to the country to the funders behind a nationality, and it shows its work: what fits, what does not, and where nobody could say.</p>
+  </div>
+</header>
+<main>
+  <div class="row sans">
+    <div class="stat"><small>Input</small><b>One row per applicant</b></div>
+    <div class="stat"><small>Output</small><b>Shortlist and exclusions</b></div>
+    <div class="stat"><small>Runs</small><b>On request</b></div>
+  </div>
+  <div class="panel">
+    <h2>How the sheet is laid out</h2>
+    <p class="note sans">The structure, minus the spreadsheet itself: the applicants and the findings stay private.</p>
+    <ol class="steps">
+      <li><b>Applicants.</b>One row per person: what and where they plan to study, entry year, citizenships and place of residence, qualifications and predicted grades, age, whether financial need applies, and any leadership record.</li>
+      <li><b>Relevant scholarships.</b>The shortlist, each with its amount, deadline, conditions and a link to the source. Leads that still hinge on an open question are marked as such.</li>
+      <li><b>Not relevant.</b>Everything checked and ruled out, with the reason. A scholarship that needs financial need is not quietly dropped, it is logged as excluded and why.</li>
+      <li><b>Scan coverage.</b>A dated list of every kind of source checked for each applicant, so anyone can see how complete a search was and where it stopped.</li>
+    </ol>
+  </div>
+  <div class="panel">
+    <h2>How a scan works</h2>
+    <ol class="steps">
+      <li><b>Read the profile.</b>The row sets the filters. Missing details are left blank and flagged rather than guessed.</li>
+      <li><b>Search in layers.</b>What each target university offers. What the study country offers to international students. What the home countries and regions offer to their own citizens. Then independent funders, foundations and clubs, and public student loans.</li>
+      <li><b>Read the rules, not the headline.</b>Eligibility pages are read for residence tests, grade cutoffs, subject requirements and deadlines. Where a rule is unclear for a particular situation, the answer is a question to put to the awarding body, not a guess.</li>
+      <li><b>Log and report.</b>Findings go into the workbook, and a short summary goes to the person who asked.</li>
+    </ol>
+  </div>
+  <div class="panel">
+    <h2>Where it stands</h2>
+    <p>It has been run for two different profiles, an undergraduate heading abroad and a student already part way through a degree, and then re-run as the profile details were filled in. Some checks, such as a university publishing its terms for next year, have been repeated on a watch. There is no fixed schedule: a scan runs when the sheet changes or a question comes up.</p>
+  </div>
+  <div class="panel">
+    <h2>House rules</h2>
+    <ul class="rules">
+      <li class="yes">Researches and reports only. It does not apply, email awarding bodies, or pay for anything without being asked.</li>
+      <li class="yes">Every entry carries its source. Amounts and deadlines are as published and worth confirming before anyone relies on them.</li>
+      <li class="yes">Uncertain eligibility is called uncertain. Nothing is presented as a confirmed award.</li>
+      <li class="yes">Names, profiles, grades and findings are private. This page describes the machine, not the people.</li>
+    </ul>
+  </div>
+</main>
+<footer class="sans"><span>&copy; 2026 Andrej Verity &middot; Built by his <a href="https://instinct.com/">Instinct</a> Agent</span><span><a href="https://veritythink.com/">veritythink.com</a></span></footer>
+</body>
+</html>
