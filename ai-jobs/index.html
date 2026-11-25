@@ -16,7 +16,7 @@ body{background:var(--mist);color:var(--ink);font-family:'PT Serif',Georgia,seri
 a{color:var(--red);text-decoration:none;transition:color .2s}a:hover{color:var(--ink)}
 header{background:var(--ink);color:#fff;padding:22px 6vw 44px;position:relative;overflow:hidden}
 header::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 80% 30%,#000,transparent 70%);mask-image:radial-gradient(circle at 80% 30%,#000,transparent 70%)}
-nav{position:relative;display:flex;justify-content:flex-end;align-items:center;gap:26px;font-size:.9rem;letter-spacing:.04em;flex-wrap:wrap}
+nav{position:relative;display:flex;justify-content:space-between;align-items:center;gap:26px;font-size:.9rem;letter-spacing:.04em;flex-wrap:wrap}
 nav a{color:#fff}nav a:hover{color:var(--coral)}
 .brand{font-weight:700;font-size:1.45rem;line-height:1.7;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif}
 .brand span{color:var(--coral)}
@@ -72,7 +72,7 @@ footer a{color:#fff;border-bottom:1px solid var(--coral)}
 </head>
 <body>
 <header>
-  <nav class="sans"><a href="../">&larr; The Workshop</a><a class="brand" href="https://veritythink.com/">verity<span>&bull;</span>think</a></nav>
+  <nav class="sans"><a class="brand" href="https://veritythink.com/">verity<span>&bull;</span>think</a><a href="../">&larr; The Workshop</a></nav>
   <div class="hd">
     <p class="eyebrow sans">Project &middot; ReliefWeb jobs, 2009 to today</p>
     <h1>Humanitarian <em>AI jobs</em> over time.</h1>
@@ -139,7 +139,7 @@ footer a{color:#fff;border-bottom:1px solid var(--coral)}
 
   <div class="panel">
     <h2>Keeping it current<span class="badge">On &middot; monthly</span></h2>
-    <p class="note sans">This dataset is refreshed on the 1st of each month by a scheduled Instinct run, using the same nine phrases, appname and API settings as the original pull:</p>
+    <p class="note sans">This dataset is refreshed automatically on the 1st of each month, using the same nine search phrases and API settings:</p>
     <ol class="steps">
       <li><b>Re-query.</b>The ReliefWeb Jobs API is searched again, so late-added and revised postings are picked up.</li>
       <li><b>Deduplicate.</b>Postings are matched by ReliefWeb job ID: existing rows are updated, never duplicated.</li>
