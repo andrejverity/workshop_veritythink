@@ -183,7 +183,7 @@ footer a{color:#fff;border-bottom:1px solid var(--red)}
   (function init(){
     if(window.google&&google.accounts&&google.accounts.id){
       google.accounts.id.initialize({client_id:CLIENT_ID,callback:onCredential,use_fedcm_for_prompt:true});
-      google.accounts.id.renderButton($('g_btn'),{theme:'outline',size:'large',shape:'pill',text:'signin_with'});
+      google.accounts.id.renderButton($('g_btn'),{theme:'outline',size:'large',shape:'pill',text:'signin_with'});$('gsi-wait').classList.add('hidden');
     }else if(tries++<50){$('gsi-wait').classList.remove('hidden');setTimeout(init,200);}
     else{$('gsi-wait').textContent='Google sign-in could not load.';}
   })();
