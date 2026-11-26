@@ -157,13 +157,13 @@ footer a{color:#fff;border-bottom:1px solid var(--red)}
           var sv=document.createElement('button');sv.className='ghost';sv.type='button';sv.textContent='Save';
           var cn=document.createElement('button');cn.className='ghost';cn.type='button';cn.textContent='Cancel';
           t.textContent='';t.appendChild(inp);box.textContent='';box.appendChild(sv);box.appendChild(cn);
-          sv.onclick=function(){sv.disabled=true;call({action:'edit',id:n.id,text:inp.value}).then(function(r){if(!r.ok)show('Could not save the edit.',true);else hideStatus();load()})};
+          sv.onclick=function(){sv.disabled=true;cn.disabled=true;inp.disabled=true;sv.textContent='Saving\u2026';call({action:'edit',id:n.id,text:inp.value}).then(function(r){if(!r.ok)show('Could not save the edit.',true);else hideStatus();load()}).catch(function(){show('Could not reach the data service.',true);load()})};
           cn.onclick=load;
         };
         box.appendChild(eb);
         if(n.id!=='seed'){
           var b=document.createElement('button');b.className='ghost';b.type='button';b.textContent='Remove';
-          b.onclick=function(){b.disabled=true;call({action:'delete',id:n.id}).then(load)};
+          b.onclick=function(){b.disabled=true;eb.disabled=true;b.textContent='Removing\u2026';call({action:'delete',id:n.id}).then(load).catch(function(){show('Could not reach the data service.',true);load()})};
           box.appendChild(b);
         }
         li.appendChild(box);
@@ -196,11 +196,11 @@ footer a{color:#fff;border-bottom:1px solid var(--red)}
   $('signout').onclick=function(){if(window.google&&google.accounts)google.accounts.id.disableAutoSelect();signedOut();};
   $('addform').onsubmit=function(ev){
     ev.preventDefault();var v=$('text').value.trim();if(!v)return;
-    var btn=ev.target.querySelector('button');btn.disabled=true;
+    var btn=ev.target.querySelector('button');btn.disabled=true;btn.textContent='Posting\u2026';
     call({action:'add',text:v}).then(function(r){
-      btn.disabled=false;
+      btn.disabled=false;btn.textContent='Post';
       if(r.ok){$('text').value='';load();}else show(r.error==='not_editor'?'Only approved editors can post.':'Could not post: '+r.error,true);
-    }).catch(function(){btn.disabled=false;show('Could not reach the data service.',true)});
+    }).catch(function(){btn.disabled=false;btn.textContent='Post';show('Could not reach the data service.',true)});
   };
   var tries=0;
   load();
