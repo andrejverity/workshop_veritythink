@@ -148,11 +148,25 @@ footer a{color:#fff;border-bottom:1px solid var(--red)}
       var t=document.createElement('div');t.textContent=n.text;
       var m=document.createElement('div');m.className='meta sans';
       m.textContent=n.author+' \u00b7 '+(n.ts?new Date(n.ts).toLocaleString():'');
-      left.appendChild(t);left.appendChild(m);li.appendChild(left);
-      if(role==='editor'&&n.id!=='seed'){
-        var b=document.createElement('button');b.className='ghost';b.type='button';b.textContent='Remove';
-        b.onclick=function(){b.disabled=true;call({action:'delete',id:n.id}).then(load)};
-        li.appendChild(b);
+      left.style.flex='1';left.appendChild(t);left.appendChild(m);li.appendChild(left);
+      if(role==='editor'){
+        var box=document.createElement('div');
+        var eb=document.createElement('button');eb.className='ghost';eb.type='button';eb.textContent='Edit';
+        eb.onclick=function(){
+          var inp=document.createElement('textarea');inp.value=n.text;inp.maxLength=500;inp.rows=3;inp.style.width='100%';
+          var sv=document.createElement('button');sv.className='ghost';sv.type='button';sv.textContent='Save';
+          var cn=document.createElement('button');cn.className='ghost';cn.type='button';cn.textContent='Cancel';
+          t.textContent='';t.appendChild(inp);box.textContent='';box.appendChild(sv);box.appendChild(cn);
+          sv.onclick=function(){sv.disabled=true;call({action:'edit',id:n.id,text:inp.value}).then(function(r){if(!r.ok)show('Could not save the edit.',true);else hideStatus();load()})};
+          cn.onclick=load;
+        };
+        box.appendChild(eb);
+        if(n.id!=='seed'){
+          var b=document.createElement('button');b.className='ghost';b.type='button';b.textContent='Remove';
+          b.onclick=function(){b.disabled=true;call({action:'delete',id:n.id}).then(load)};
+          box.appendChild(b);
+        }
+        li.appendChild(box);
       }
       ul.appendChild(li);
     });
