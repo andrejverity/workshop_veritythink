@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<title>Privacy | The Workshop</title>
+<meta name="description" content="How the small sites in The Workshop handle personal data, one section per project.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17181e;--red:#d73a42;--paper:#fff;--mist:#f7f8fb;--line:#e6e7eb;--gray:#747577}
+*{box-sizing:border-box;margin:0}
+body{background:var(--mist);color:var(--ink);font-family:'PT Serif',Georgia,serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--red);text-decoration:none;transition:color .2s}a:hover{color:var(--ink)}
+header{background:var(--ink);color:#fff;padding:22px 6vw 44px;position:relative;overflow:hidden}
+header::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 80% 30%,#000,transparent 70%);mask-image:radial-gradient(circle at 80% 30%,#000,transparent 70%)}
+nav{position:relative;display:flex;justify-content:space-between;align-items:center;font-size:.9rem;letter-spacing:.04em}
+nav a{color:#fff}nav a:hover{color:var(--red)}.brand{font-weight:700;font-size:1.45rem;line-height:1.7;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif}.brand span{color:var(--red)}@media(max-width:800px){.brand{font-size:1.35rem}}
+.hd{position:relative;margin:34px auto 0;max-width:860px}
+.eyebrow{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:700}
+h1{font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:1.05;letter-spacing:-.02em;margin:10px 0 12px}
+h1 em{color:var(--red)}
+.lede{color:#d1d1d2;max-width:660px;font-size:1.1rem}
+main{max-width:860px;margin:auto;padding:44px 6vw 70px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:28px;margin-bottom:22px}
+h2{font-size:1.45rem;margin-bottom:10px;letter-spacing:-.01em}
+h3{font-size:1.05rem;margin:14px 0 4px}
+.note{color:var(--gray);font-size:.9rem;margin-bottom:14px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.who{font-size:.9rem;color:var(--gray)}
+.pill{display:inline-block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;border-radius:99px;padding:3px 10px;background:var(--ink);color:#fff;margin-left:6px}
+.pill.editor{background:var(--red)}
+.status{font-size:.95rem;padding:12px 16px;border-radius:12px;background:var(--mist);border:1px solid var(--line);margin-top:12px}
+.status.bad{border-color:var(--red);color:#8f1d24;background:#fdf1f2}
+form{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+input[type=text]{flex:1;min-width:200px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit}
+button{font:inherit;cursor:pointer;border:0;border-radius:99px;padding:10px 20px;background:var(--red);color:#fff;font-weight:700;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:.9rem}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button:hover{background:var(--ink)}button.ghost:hover{background:var(--mist);color:var(--ink)}
+ul.notes{list-style:none;padding:0}
+ul.notes li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px}
+ul.notes li:last-child{border-bottom:0}
+.meta{font-size:.78rem;color:var(--gray)}
+.hidden{display:none}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{position:relative;padding:0 0 16px 58px;counter-increment:s}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:2px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-weight:700;color:var(--red);font-size:1.3rem}
+.steps b{display:block;font-size:1.05rem}
+.rules{list-style:none;padding:0}
+.rules li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid var(--line)}
+.rules li:last-child{border-bottom:0}
+.rules li::before{content:"\00D7";position:absolute;left:4px;color:var(--red);font-weight:700}
+.rules li.yes::before{content:"\2713"}
+footer{background:var(--ink);color:#d1d1d2;padding:34px 6vw;font-size:.88rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{color:#fff;border-bottom:1px solid var(--red)}
+#privacy details summary{cursor:pointer;list-style:none}#privacy summary::-webkit-details-marker{display:none}
+#privacy summary::before{content:"+";display:inline-block;width:1.2em;color:var(--red);font-weight:700}
+#privacy details[open] summary::before{content:"\2212"}
+.pv{margin-top:14px;font-size:.95rem;color:#3a3b41}.pv h3{font-size:1rem;margin:16px 0 4px;color:var(--ink)}.pv p{margin-bottom:6px}
+
+.pp h2{margin-top:0}.pp h3{font-size:1rem;margin:18px 0 4px;color:var(--ink)}.pp p{margin-bottom:8px;color:#3a3b41}
+.toc{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px;padding:0;list-style:none}.toc a{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:5px 14px;background:#fff;font-size:.9rem}
+.pp section[id]{scroll-margin-top:16px}.pp .panel:target{border-color:var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <nav class="sans"><a class="brand" href="https://veritythink.com/">verity<span>&bull;</span>think</a><a href="../">&larr; The Workshop</a></nav>
+  <div class="hd">
+    <p class="eyebrow sans">The Workshop &middot; Privacy</p>
+    <h1>Privacy <em>policy.</em></h1>
+    <p class="lede">The Workshop is a set of small sites run by Andrej Verity (veritythink.com). Most pages are public and collect nothing. Where a project does handle personal data, it has its own section below.</p>
+  </div>
+</header>
+<main class="pp sans">
+  <p style="margin-bottom:14px"><em>Last updated 26 November 2026.</em></p>
+  <ul class="toc"><li><a href="#general">All projects</a></li><li><a href="#members-board">Members Board</a></li></ul>
+  <section class="panel" id="general">
+    <h2>All projects</h2>
+    <p>The pages in The Workshop are static pages on GitHub Pages. They set no cookies of their own and use no advertising or analytics trackers of their own. As with any website, the hosting service may log technical details such as your IP address in the ordinary way. Nothing is sold or shared for advertising.</p>
+    <p>Some projects read public data or use a Google Sheet or a Google Apps Script web app behind the page. Any project that collects information from visitors says so in its own section below.</p>
+    <p>To ask a question or request deletion, use the <a href="https://veritythink.com/contact/">contact page on veritythink.com</a>.</p>
+  </section>
+  <section class="panel" id="members-board">
+    <h2>Members Board</h2>
+    <p><a href="../members-board/">Open the Members Board</a></p>
+
+        <h3>Reading the board</h3>
+        <p>Anyone can read the notes without signing in. Reading collects nothing about you from this page. As with any website, the hosting services (GitHub Pages and Google Apps Script) may log technical details such as your IP address in the ordinary way.</p>
+        <h3>What Google sign-in collects</h3>
+        <p>Signing in is only for people who want to edit. When you click "Sign in with Google", Google tells this page your email address, your name and your profile picture. That is all. The page asks for no other access to your Google account: no Gmail, Drive, contacts or calendar.</p>
+        <h3>What is stored, and where</h3>
+        <p>Your email address is checked against an allow list kept in a private Google Sheet. If you are an approved editor, the sheet holds your email address, your role and an approval status. If you sign in without being approved, your email address may be added as "pending", with no edit rights, so the owner can decide whether to approve you. Notes you post are stored in the sheet with your email address and first name. The public view shows only the first name, never an email address. Your picture is not stored. The page keeps nothing in your browser after you close the tab, and it sets no cookies of its own.</p>
+        <h3>Who can see it</h3>
+        <p>Only Andrej Verity and the assistant that maintains the site for him can see the allow list and the email addresses in it. The notes themselves are public. Your information is used only to decide who may edit. It is not sold, shared, or used for advertising. The site runs on GitHub Pages and a Google Apps Script web app, which process requests on the owner's behalf.</p>
+        <h3>Deleting your information</h3>
+        <p>Send a request through the contact page below and your row is removed from the allow list, and any notes you posted can be removed on request. You can also remove this app's access under Google Account, Security, Third-party apps and services, though the app holds no access to your account beyond sign-in.</p>
+        <h3>Contact</h3>
+        <p>Andrej Verity, via the <a href="https://veritythink.com/contact/">contact page on veritythink.com</a>.</p>
+      
+  </section>
+  <!-- New project? Add a section with a stable id, then a link in the contents list above. -->
+</main>
+<footer class="sans"><span>&copy; 2026 Andrej Verity &middot; Built by his <a href="https://instinct.com/">Instinct</a> Agent</span><span><a href="https://veritythink.com/">veritythink.com</a></span></footer>
+</body>
+</html>
