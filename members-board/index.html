@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<title>Members Board | The Workshop</title>
+<meta name="description" content="A static page with Google sign-in and an allow list. The data lives in a private spreadsheet and only approved accounts can read or write it.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+:root{--ink:#17181e;--red:#d73a42;--paper:#fff;--mist:#f7f8fb;--line:#e6e7eb;--gray:#747577}
+*{box-sizing:border-box;margin:0}
+body{background:var(--mist);color:var(--ink);font-family:'PT Serif',Georgia,serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--red);text-decoration:none;transition:color .2s}a:hover{color:var(--ink)}
+header{background:var(--ink);color:#fff;padding:22px 6vw 44px;position:relative;overflow:hidden}
+header::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(circle at 80% 30%,#000,transparent 70%);mask-image:radial-gradient(circle at 80% 30%,#000,transparent 70%)}
+nav{position:relative;display:flex;justify-content:space-between;align-items:center;font-size:.9rem;letter-spacing:.04em}
+nav a{color:#fff}nav a:hover{color:var(--red)}.brand{font-weight:700;font-size:1.45rem;line-height:1.7;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif}.brand span{color:var(--red)}@media(max-width:800px){.brand{font-size:1.35rem}}
+.hd{position:relative;margin:34px auto 0;max-width:860px}
+.eyebrow{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:700}
+h1{font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:1.05;letter-spacing:-.02em;margin:10px 0 12px}
+h1 em{color:var(--red)}
+.lede{color:#d1d1d2;max-width:660px;font-size:1.1rem}
+main{max-width:860px;margin:auto;padding:44px 6vw 70px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:28px;margin-bottom:22px}
+h2{font-size:1.45rem;margin-bottom:10px;letter-spacing:-.01em}
+h3{font-size:1.05rem;margin:14px 0 4px}
+.note{color:var(--gray);font-size:.9rem;margin-bottom:14px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.who{font-size:.9rem;color:var(--gray)}
+.pill{display:inline-block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;border-radius:99px;padding:3px 10px;background:var(--ink);color:#fff;margin-left:6px}
+.pill.editor{background:var(--red)}
+.status{font-size:.95rem;padding:12px 16px;border-radius:12px;background:var(--mist);border:1px solid var(--line);margin-top:12px}
+.status.bad{border-color:var(--red);color:#8f1d24;background:#fdf1f2}
+form{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+input[type=text]{flex:1;min-width:200px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit}
+button{font:inherit;cursor:pointer;border:0;border-radius:99px;padding:10px 20px;background:var(--red);color:#fff;font-weight:700;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:.9rem}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button:hover{background:var(--ink)}button.ghost:hover{background:var(--mist);color:var(--ink)}
+ul.notes{list-style:none;padding:0}
+ul.notes li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px}
+ul.notes li:last-child{border-bottom:0}
+.meta{font-size:.78rem;color:var(--gray)}
+.hidden{display:none}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{position:relative;padding:0 0 16px 58px;counter-increment:s}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:2px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-weight:700;color:var(--red);font-size:1.3rem}
+.steps b{display:block;font-size:1.05rem}
+.rules{list-style:none;padding:0}
+.rules li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid var(--line)}
+.rules li:last-child{border-bottom:0}
+.rules li::before{content:"\00D7";position:absolute;left:4px;color:var(--red);font-weight:700}
+.rules li.yes::before{content:"\2713"}
+footer{background:var(--ink);color:#d1d1d2;padding:34px 6vw;font-size:.88rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{color:#fff;border-bottom:1px solid var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <nav class="sans"><a class="brand" href="https://veritythink.com/">verity<span>&bull;</span>think</a><a href="../">&larr; The Workshop</a></nav>
+  <div class="hd">
+    <p class="eyebrow sans">Project 13 &middot; Static site, real access control</p>
+    <h1>Members <em>Board.</em></h1>
+    <p class="lede">A page anyone can open, with data only approved people can see. Sign in with Google, and a small go-between checks your name against an allow list before it hands anything over.</p>
+  </div>
+</header>
+<main>
+  <section class="panel" id="board">
+    <h2>The board</h2>
+    <p class="note sans">This page ships empty. Notes are fetched from a private spreadsheet only after your sign-in is checked.</p>
+    <div id="signin-area">
+      <div id="g_btn"></div>
+      <p class="status sans hidden" id="gsi-wait">Loading Google sign-in&hellip;</p>
+    </div>
+    <div id="app" class="hidden">
+      <div class="bar sans"><span class="who" id="who"></span><button class="ghost" id="signout" type="button">Sign out</button></div>
+      <form id="addform" class="sans hidden"><input type="text" id="text" maxlength="500" placeholder="Write a note (editors only)" autocomplete="off"><button type="submit">Post</button></form>
+      <ul class="notes" id="notes"></ul>
+    </div>
+    <p class="status sans hidden" id="status"></p>
+  </section>
+
+  <section class="panel">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><b>Sign in with Google</b>The page gets a signed token from Google that says who you are. Nothing is stored in the browser after you close the tab.</li>
+      <li><b>The go-between checks it</b>A small Google Apps Script web app verifies the token with Google, then looks you up in the Allowlist tab of a private spreadsheet.</li>
+      <li><b>Only listed people get data</b>Viewers can read. Editors can read, add and remove notes. Anyone else gets a refusal and no data.</li>
+      <li><b>One spreadsheet holds everything</b>The notes and the allow list are two tabs of the same sheet. Adding a person is adding a row.</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2>What this protects, and what it does not</h2>
+    <ul class="rules sans">
+      <li class="yes">The data is not in the page or the repository. Opening the page source shows no notes and no names.</li>
+      <li class="yes">The check happens on the data side. Hiding or showing buttons in this page is only cosmetic.</li>
+      <li class="yes">Writing needs the editor role, checked again by the go-between on every request.</li>
+      <li>Anyone can see this page and the go-between's address. The address is not a secret, so the checks are the protection.</li>
+      <li>An approved person can copy what they can see. Sign-in controls who gets in, not what they do with it.</li>
+      <li>Whoever can edit the Allowlist tab can approve people. That tab is locked to named editors in the sheet.</li>
+      <li>It suits a handful of trusted people and small data. Apps Script is slow (a second or two) and has daily quotas.</li>
+    </ul>
+  </section>
+</main>
+<footer class="sans"><span>&copy; 2026 Andrej Verity &middot; Built by his <a href="https://instinct.com/">Instinct</a> Agent</span><span><a href="https://veritythink.com/">veritythink.com</a></span></footer>
+<script>
+(function(){
+  var CLIENT_ID='410104533080-hf6usfgcbdcjaho8f70sbokssjcp0k90.apps.googleusercontent.com';
+  var API='https://script.google.com/macros/s/AKfycbx_M8YlAetjC29dE9KySt8a1n-m28zdB0KGBP1mCPYLeaB_G7eFstnikirgBriuPry3hw/exec';
+  var token=null, role=null;
+  var $=function(id){return document.getElementById(id)};
+  function show(msg,bad){var s=$('status');s.textContent=msg;s.className='status sans'+(bad?' bad':'');}
+  function hideStatus(){$('status').className='status sans hidden';}
+  function call(body){
+    body.token=token;
+    return fetch(API,{method:'POST',body:JSON.stringify(body)}).then(function(r){return r.json()});
+  }
+  function signedOut(msg,bad){
+    token=null;role=null;
+    $('app').classList.add('hidden');$('signin-area').classList.remove('hidden');
+    $('notes').textContent='';
+    if(msg)show(msg,bad);else hideStatus();
+  }
+  function render(notes){
+    var ul=$('notes');ul.textContent='';
+    if(!notes.length){var e=document.createElement('li');e.textContent='No notes yet.';ul.appendChild(e);return;}
+    notes.forEach(function(n){
+      var li=document.createElement('li');
+      var left=document.createElement('div');
+      var t=document.createElement('div');t.textContent=n.text;
+      var m=document.createElement('div');m.className='meta sans';
+      m.textContent=n.author+' \u00b7 '+(n.ts?new Date(n.ts).toLocaleString():'');
+      left.appendChild(t);left.appendChild(m);li.appendChild(left);
+      if(role==='editor'&&n.id!=='seed'){
+        var b=document.createElement('button');b.className='ghost';b.type='button';b.textContent='Remove';
+        b.onclick=function(){b.disabled=true;call({action:'delete',id:n.id}).then(refresh)};
+        li.appendChild(b);
+      }
+      ul.appendChild(li);
+    });
+  }
+  function refresh(){
+    show('Checking the allow list\u2026');
+    call({action:'list'}).then(function(r){
+      if(r.ok){
+        role=r.role;hideStatus();render(r.notes);
+        $('addform').classList.toggle('hidden',role!=='editor');
+      }else if(r.error==='not_allowed'){
+        signedOut('Signed in as '+r.email+', but that account is not on the allow list. No data was returned.',true);
+      }else{
+        signedOut('Sign-in could not be verified. Please try again.',true);
+      }
+    }).catch(function(){signedOut('Could not reach the data service.',true)});
+  }
+  function onCredential(resp){
+    token=resp.credential;
+    $('signin-area').classList.add('hidden');$('app').classList.remove('hidden');
+    try{var p=JSON.parse(atob(resp.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));$('who').textContent='Signed in as '+p.email;}catch(e){}
+    call({action:'whoami'}).then(function(r){
+      if(r.ok){
+        var pill=document.createElement('span');pill.className='pill '+r.role;pill.textContent=r.role;
+        $('who').appendChild(pill);refresh();
+      }else if(r.error==='not_allowed'){
+        signedOut('Signed in as '+r.email+', but that account is not on the allow list. No data was returned.',true);
+      }else{signedOut('Sign-in could not be verified. Please try again.',true);}
+    }).catch(function(){signedOut('Could not reach the data service.',true)});
+  }
+  $('signout').onclick=function(){if(window.google&&google.accounts)google.accounts.id.disableAutoSelect();signedOut();};
+  $('addform').onsubmit=function(ev){
+    ev.preventDefault();var v=$('text').value.trim();if(!v)return;
+    var btn=ev.target.querySelector('button');btn.disabled=true;
+    call({action:'add',text:v}).then(function(r){
+      btn.disabled=false;
+      if(r.ok){$('text').value='';refresh();}else show('Could not post: '+r.error,true);
+    }).catch(function(){btn.disabled=false;show('Could not reach the data service.',true)});
+  };
+  var tries=0;
+  (function init(){
+    if(window.google&&google.accounts&&google.accounts.id){
+      google.accounts.id.initialize({client_id:CLIENT_ID,callback:onCredential,use_fedcm_for_prompt:true});
+      google.accounts.id.renderButton($('g_btn'),{theme:'outline',size:'large',shape:'pill',text:'signin_with'});
+    }else if(tries++<50){$('gsi-wait').classList.remove('hidden');setTimeout(init,200);}
+    else{$('gsi-wait').textContent='Google sign-in could not load.';}
+  })();
+})();
+</script>
+</body>
+</html>
