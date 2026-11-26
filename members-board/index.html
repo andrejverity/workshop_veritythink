@@ -42,7 +42,7 @@ button{font:inherit;cursor:pointer;border:0;border-radius:99px;padding:10px 20px
 button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 button:hover{background:var(--ink)}button.ghost:hover{background:var(--mist);color:var(--ink)}
 ul.notes{list-style:none;padding:0}
-ul.notes li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px}
+ul.notes li.loading{display:block;margin-top:14px;background:var(--mist);border:1px dashed var(--line);border-radius:10px;padding:18px;color:#666;text-align:center}ul.notes.updating{opacity:.55;transition:opacity .2s}ul.notes li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px}
 ul.notes li:last-child{border-bottom:0}
 .meta{font-size:.78rem;color:var(--gray)}
 .hidden{display:none}
@@ -85,7 +85,7 @@ footer a{color:#fff;border-bottom:1px solid var(--red)}
       <form id="addform" class="sans hidden"><input type="text" id="text" maxlength="500" placeholder="Write a note" autocomplete="off"><button type="submit">Post</button></form>
     </div>
     <p class="status sans hidden" id="status"></p>
-    <ul class="notes" id="notes"></ul>
+    <ul class="notes" id="notes"><li class="loading sans" id="loading">Loading notes&hellip;</li></ul>
   </section>
 
   <section class="panel">
@@ -157,13 +157,13 @@ footer a{color:#fff;border-bottom:1px solid var(--red)}
           var sv=document.createElement('button');sv.className='ghost';sv.type='button';sv.textContent='Save';
           var cn=document.createElement('button');cn.className='ghost';cn.type='button';cn.textContent='Cancel';
           t.textContent='';t.appendChild(inp);box.textContent='';box.appendChild(sv);box.appendChild(cn);
-          sv.onclick=function(){sv.disabled=true;cn.disabled=true;inp.disabled=true;sv.textContent='Saving\u2026';call({action:'edit',id:n.id,text:inp.value}).then(function(r){if(!r.ok)show('Could not save the edit.',true);else hideStatus();load()}).catch(function(){show('Could not reach the data service.',true);load()})};
+          sv.onclick=function(){sv.disabled=true;cn.disabled=true;inp.disabled=true;sv.textContent='Saving\u2026';call({action:'edit',id:n.id,text:inp.value}).then(function(r){if(!r.ok)show('Could not save the edit.',true);else refresh();if(!r.ok)load()}).catch(function(){show('Could not reach the data service.',true);load()})};
           cn.onclick=load;
         };
         box.appendChild(eb);
         if(n.id!=='seed'){
           var b=document.createElement('button');b.className='ghost';b.type='button';b.textContent='Remove';
-          b.onclick=function(){b.disabled=true;eb.disabled=true;b.textContent='Removing\u2026';call({action:'delete',id:n.id}).then(load).catch(function(){show('Could not reach the data service.',true);load()})};
+          b.onclick=function(){b.disabled=true;eb.disabled=true;b.textContent='Removing\u2026';call({action:'delete',id:n.id}).then(refresh).catch(function(){show('Could not reach the data service.',true);load()})};
           box.appendChild(b);
         }
         li.appendChild(box);
@@ -171,13 +171,14 @@ footer a{color:#fff;border-bottom:1px solid var(--red)}
       ul.appendChild(li);
     });
   }
+  function refresh(){show('Updating the list\u2026');$('notes').classList.add('updating');load();}
   // Public read: works with or without a sign-in.
   function load(){
     call({action:'list'}).then(function(r){
-      if(r.ok){render(r.notes);}
+      if(r.ok){render(r.notes);if($('status').textContent==='Updating the list\u2026')hideStatus();$('notes').classList.remove('updating');}
       else if(r.error==='invalid_token'){signedOut('Your sign-in expired. Please sign in again.',true);}
-      else{show('Could not load the notes.',true);}
-    }).catch(function(){show('Could not reach the data service.',true)});
+      else{$('notes').classList.remove('updating');show('Could not load the notes.',true);}
+    }).catch(function(){$('notes').classList.remove('updating');show('Could not reach the data service.',true)});
   }
   function onCredential(resp){
     token=resp.credential;
@@ -199,7 +200,7 @@ footer a{color:#fff;border-bottom:1px solid var(--red)}
     var btn=ev.target.querySelector('button');btn.disabled=true;btn.textContent='Posting\u2026';
     call({action:'add',text:v}).then(function(r){
       btn.disabled=false;btn.textContent='Post';
-      if(r.ok){$('text').value='';load();}else show(r.error==='not_editor'?'Only approved editors can post.':'Could not post: '+r.error,true);
+      if(r.ok){$('text').value='';refresh();}else show(r.error==='not_editor'?'Only approved editors can post.':'Could not post: '+r.error,true);
     }).catch(function(){btn.disabled=false;btn.textContent='Post';show('Could not reach the data service.',true)});
   };
   var tries=0;
